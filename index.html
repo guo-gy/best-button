@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>终极炫酷按钮 V4 - 引力版</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <svg style="position:absolute; width:0; height:0;" xmlns="http://www.w3.org/2000/svg" version="1.1">
+        <defs>
+            <filter id="gooey-effect-v4">
+                <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur" />
+                <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -9" result="goo" />
+                <feComposite in="SourceGraphic" in2="goo" operator="atop"/>
+            </filter>
+        </defs>
+    </svg>
+
+    <div class="button-container-v4" id="buttonContainer">
+        <button class="cool-button-v4" id="coolButtonV4">
+            <span class="button-text-v4">
+                <span class="button-text-inner-v4" id="buttonTextInner">引力之触!</span>
+            </span>
+            <div class="particles-container" id="particlesContainer"></div>
+        </button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

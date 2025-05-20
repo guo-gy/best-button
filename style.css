@@ -1,0 +1,136 @@
+/* 基本 body 和容器样式与 V3 类似，可酌情调整 */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #050510; /* 更暗的背景 */
+    margin: 0;
+    font-family: 'Inter', 'Poppins', sans-serif; /* 使用 Inter 字体 */
+    overflow: visible;
+    color: #fff;
+}
+
+.button-container-v4 {
+    perspective: 1500px;
+}
+
+.cool-button-v4 {
+    position: relative;
+    padding: 28px 55px; /* 稍大一些 */
+    font-size: 30px;
+    font-weight: 700; /* 更粗的字重 */
+    color: #ffffff;
+    border: none;
+    border-radius: 22px;
+    cursor: pointer;
+    outline: none;
+    overflow: visible; /* 按钮本身隐藏溢出，粒子在内部容器处理 */
+    
+    /* 动态光影通过 CSS 变量和 JS 实现 */
+    background: var(--button-bg, linear-gradient(75deg, #f9009a, #a80077, #6f00a8, #3a00a8, #0f00f5, #007bff, #00e0ff));
+    background-size: 350% 350%;
+    
+    box-shadow: var(--button-shadow-base, 
+                    0 0 10px rgba(0,180,255,0.2), 
+                    0 0 20px rgba(200,0,150,0.15)),
+                /* 动态内阴影，模拟深度 */
+                inset var(--inset-shadow-x, 0px) var(--inset-shadow-y, 0px) 15px 0px var(--inset-shadow-color1, rgba(255,255,255,0.05)),
+                inset var(--inset-shadow-x-neg, 0px) var(--inset-shadow-y-neg, 0px) 15px 0px var(--inset-shadow-color2, rgba(0,0,0,0.2));
+
+    transition: transform 0.1s linear, box-shadow 0.3s ease-out;
+    
+    animation: auroraBackgroundV4 20s linear infinite,
+               idlePulseV4 4s infinite cubic-bezier(0.5, 0, 0.5, 1);
+    
+    transform-style: preserve-3d;
+    /* transform 由 JS 控制 */
+}
+
+/* 粒子容器，应用粘滞滤镜 */
+.particles-container {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    filter: url(#gooey-effect-v4);
+    pointer-events: none; /* 不干扰按钮点击 */
+    overflow: visible; /* 确保粘滞效果正常 */
+}
+
+.button-text-v4 {
+    position: relative;
+    display: inline-block;
+    z-index: 2;
+    pointer-events: none;
+    transform-style: preserve-3d; /* 为了文字的3D效果 */
+}
+
+.button-text-inner-v4 {
+    display: block; /* 或 inline-block */
+    text-shadow: var(--text-depth-shadow, 1px 1px 0px rgba(0,0,0,0.3)); /* 动态文本阴影 */
+    transition: transform 0.3s ease, text-shadow 0.2s linear;
+    transform: var(--text-transform, translateZ(0px)); /* 文本的 Z 轴位移 */
+}
+
+
+/* 移除V3的光泽扫描，或按需保留/修改 */
+/* .button-text-inner-v4::before { ... } */
+
+
+@keyframes auroraBackgroundV4 {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes idlePulseV4 { /* 更柔和的脉冲 */
+    0%, 100% {
+        box-shadow: var(--button-shadow-base, 0 0 10px rgba(0,180,255,0.2), 0 0 20px rgba(200,0,150,0.15)),
+                    inset var(--inset-shadow-x, 0px) var(--inset-shadow-y, 0px) 15px 0px var(--inset-shadow-color1, rgba(255,255,255,0.05)),
+                    inset var(--inset-shadow-x-neg, 0px) var(--inset-shadow-y-neg, 0px) 15px 0px var(--inset-shadow-color2, rgba(0,0,0,0.2));
+        transform: var(--button-transform-idle-base, scale(1));
+    }
+    50% {
+        box-shadow: var(--button-shadow-pulse, 0 0 18px rgba(0,180,255,0.3), 0 0 35px rgba(200,0,150,0.25)),
+                    inset var(--inset-shadow-x, 0px) var(--inset-shadow-y, 0px) 20px 0px var(--inset-shadow-color1-pulse, rgba(255,255,255,0.1)),
+                    inset var(--inset-shadow-x-neg, 0px) var(--inset-shadow-y-neg, 0px) 20px 0px var(--inset-shadow-color2-pulse, rgba(0,0,0,0.25));
+        transform: var(--button-transform-idle-pulse, scale(1.02));
+    }
+}
+
+.cool-button-v4:hover {
+    animation-play-state: paused; /* 悬停时暂停呼吸动画 */
+     box-shadow: var(--button-shadow-hover, 
+                    0 0 25px rgba(0,180,255,0.4), 
+                    0 0 50px rgba(200,0,150,0.3),
+                    0 5px 20px rgba(0,0,0,0.1)),
+                inset var(--inset-shadow-x, 0px) var(--inset-shadow-y, 0px) 15px 0px var(--inset-shadow-color1, rgba(255,255,255,0.05)),
+                inset var(--inset-shadow-x-neg, 0px) var(--inset-shadow-y-neg, 0px) 15px 0px var(--inset-shadow-color2, rgba(0,0,0,0.2));
+}
+
+.cool-button-v4.clicked-v4 {
+    transition: transform 0.05s ease-out, box-shadow 0.05s ease-out !important;
+    transform: var(--button-transform-clicked, scale(0.97)) !important;
+    box-shadow: var(--button-shadow-clicked, 
+                    0 0 8px rgba(0,180,255,0.3), 
+                    0 0 15px rgba(200,0,150,0.2)),
+                inset var(--inset-shadow-x, 0px) var(--inset-shadow-y, 0px) 10px 0px var(--inset-shadow-color1-clicked, rgba(255,255,255,0.03)),
+                inset var(--inset-shadow-x-neg, 0px) var(--inset-shadow-y-neg, 0px) 10px 0px var(--inset-shadow-color2-clicked, rgba(0,0,0,0.15)) !important;
+}
+
+.particle-v4 {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 1;
+    /* JS控制 transform, background-color, width, height */
+}
+
+.shockwave-v4 { /* 冲击波可以不使用，或者也受引力影响 */
+    position: absolute;
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 1;
+    pointer-events: none;
+    /* JS控制 */
+}
