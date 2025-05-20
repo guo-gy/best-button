@@ -138,11 +138,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- Particle System with Gravity ---
-    const PARTICLE_COUNT = 35;
-    const PARTICLE_LIFESPAN = 180; // In frames
-    const PARTICLE_PULL_RADIUS = 250;
-    const PARTICLE_PULL_STRENGTH = 0.8; // Lowered strength for subtlety
-    const PARTICLE_DAMPING = 0.96;
+    const PARTICLE_COUNT = 35; // 粒子数量可以保持不变，或按需调整
+    const PARTICLE_LIFESPAN = 360; // 从 180 增加到 360，使粒子存活时间延长一倍 (约6秒 @60fps)
+    const PARTICLE_PULL_RADIUS = 250; // 引力作用半径可以保持不变
+    const PARTICLE_PULL_STRENGTH = 0.3; // 从 0.8 减小到 0.3，显著减弱引力
+    const PARTICLE_DAMPING = 0.96; 
 
     class Particle {
         constructor(x, y) {
